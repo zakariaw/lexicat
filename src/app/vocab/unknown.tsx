@@ -1,6 +1,6 @@
 import { Button, Column, Host, Text } from "@expo/ui";
 
-export default function Index() {
+export default function UnknownScreen() {
   return (
     <Host style={{ flex: 1 }}>
       <Column spacing={12} alignment="center">

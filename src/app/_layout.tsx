@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
-export default function TabLayout() {
+export default function RootLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
       <Tabs.Screen
@@ -9,7 +9,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={24} color={color} />
+            <Ionicons name="home" size={20} color={color} />
           ),
         }}
       />
@@ -18,7 +18,7 @@ export default function TabLayout() {
         options={{
           title: "Vocab",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="book" size={24} color={color} />
+            <Ionicons name="book" size={20} color={color} />
           ),
         }}
       />
@@ -27,7 +27,7 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="person" size={24} color={color} />
+            <Ionicons name="person" size={20} color={color} />
           ),
         }}
       />

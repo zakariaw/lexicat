@@ -1,12 +1,5 @@
-import { Button, Column, Host, Text } from "@expo/ui";
+import { View } from "react-native";
 
 export default function UnknownScreen() {
-  return (
-    <Host style={{ flex: 1 }}>
-      <Column spacing={12} alignment="center">
-        <Text>Hello, world!</Text>
-        <Button label="Press me" onPress={() => alert("Pressed")} />
-      </Column>
-    </Host>
-  );
+  return <View></View>;
 }

@@ -3,9 +3,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { PortalHost } from "@rn-primitives/portal";
 import { Tabs } from "expo-router";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 export default function RootLayout() {
   return (
-    <>
+    <GestureHandlerRootView>
       <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
         <Tabs.Screen
           name="index"
@@ -36,6 +38,6 @@ export default function RootLayout() {
         />
       </Tabs>
       <PortalHost />
-    </>
+    </GestureHandlerRootView>
   );
 }

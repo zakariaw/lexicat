@@ -1,88 +1,60 @@
-import * as SQLite from "expo-sqlite";
+import { db } from "./client";
 
-const db = SQLite.openDatabaseSync("vocab.db");
+export type VocabStatus = "known" | "unknown";
 
-export function initDb() {
-  db.execSync(`
-
-    CREATE TABLE IF NOT EXISTS vocab_words (
-
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-      arabic TEXT,
-
-      english TEXT
-
-    );
-
+// CREATE
+export function insertWord(
+  arabic: string,
+  english: string,
+  status: VocabStatus = "unknown",
+) {
+  return db.runSync(
+    `
+    INSERT INTO vocab_words (arabic, english, status)
+    VALUES (?, ?, ?);
+      `,
+    [arabic, english, status],
+  );
+}
+// READ
+export function fetchWords() {
+  return db.getAllSync(`
+    SELECT * FROM vocab_words
+    ORDER BY id DESC;
   `);
-
-  console.log("DB ready");
-
-  seedWords();
-
-  console.log("=== INITIAL ===");
-
-  console.log(fetchWords());
-
-  console.log("=== INSERT TEST ===");
-
-  insertWord("ولد", "Boy");
-
-  console.log("=== AFTER INSERT ===");
-
-  console.log(fetchWords());
 }
 
-export function insertWord(arabic: string, english: string) {
-  db.runSync(
-    `INSERT INTO vocab_words (arabic, english) VALUES (?, ?)`,
-
-    [arabic, english],
+// SEARCH
+export function searchWords(term: string) {
+  return db.getAllSync(
+    `
+    SELECT * FROM vocab_words
+    WHERE arabic LIKE ? OR english LIKE ?
+    ORDER BY id DESC;
+    `,
+    [`%${term}%`, `%${term}%`],
   );
 }
 
-export function fetchWords() {
-  return db.getAllSync(`SELECT * FROM vocab_words`);
-}
-
+// UPDATE STATUS
 export function updateWordStatus(id: number, status: "known" | "unknown") {
   db.runSync(
-    `UPDATE vocab_words SET status = ? WHERE id = ?`,
-
+    `
+    UPDATE vocab_words
+    SET status = ?
+    WHERE id = ?;
+    `,
     [status, id],
   );
 }
 
+// DELETE
 export function deleteWord(id: number) {
   db.runSync(
-    `DELETE FROM vocab_words WHERE id = ?`,
-
+    `
+    DELETE FROM vocab_words
+    WHERE id = ?;
+    `,
     [id],
   );
-}
-export function seedWords() {
-  const existing = db.getFirstSync(`
-
-    SELECT COUNT(*) as count FROM vocab_words;
-
-  `) as any;
-
-  if (existing.count > 0) return;
-
-  db.runSync(`
-
-    INSERT INTO vocab_words (arabic, english)
-
-    VALUES
-
-    ('كتاب', 'Book'),
-
-    ('بيت', 'House'),
-
-    ('ماء', 'Water');
-
-  `);
-
-  console.log("Seeded words");
 }

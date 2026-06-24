@@ -1,31 +1,32 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import { useEffect } from "react";
+
+import { View } from "react-native";
+
+import { VocabCard } from "@/features/vocab/components/vocabcard";
+
+import { useVocabStore } from "@/features/vocab/db/store";
 
 export default function KnownScreen() {
-  const renderRightActions = () => {
-    return (
-      <View className="flex-row items-center">
-        <TouchableOpacity className="bg-red-500 justify-center px-6 h-16">
-          <Text className="text-white">Delete</Text>
-        </TouchableOpacity>
+  const { words, load } = useVocabStore();
 
-        <TouchableOpacity className="bg-blue-500 justify-center px-6 h-16">
-          <Text className="text-white">Edit</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  useEffect(() => {
+    load();
+  }, []);
+
+  const knownWords = words.filter((w) => w.status === "unknown");
 
   return (
-    <Swipeable renderRightActions={renderRightActions}>
-      <View className="h-16 border-2 flex-row justify-between items-center px-8 bg-white">
-        <View>
-          <Text>School</Text>
-          <Text>x14</Text>
-        </View>
-
-        <Text>كتاب</Text>
-      </View>
-    </Swipeable>
+    <View>
+      {knownWords.map((word) => (
+        <VocabCard
+          key={word.id}
+          english={word.english}
+          arabic={word.arabic}
+          count={word.id} // or replace later with real count logic
+          onDelete={() => console.log("delete", word.id)}
+          onEdit={() => console.log("edit", word.id)}
+        />
+      ))}
+    </View>
   );
 }

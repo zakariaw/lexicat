@@ -16,6 +16,7 @@ export function insertWord(
     [arabic, english, status],
   );
 }
+
 // READ
 export function fetchWords() {
   return db.getAllSync(`

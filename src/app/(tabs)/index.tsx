@@ -15,10 +15,7 @@ export default function Index() {
       <Text className="text-center text-base">
         Paste Arabic text or upload a file to start{"\n"} your first session.
       </Text>
-      <Button
-        className="bg-white w-72"
-        onPress={() => router.push("/reader/upload")}
-      >
+      <Button className="bg-white w-72" onPress={() => router.push("/upload")}>
         <Ionicons name="add" size={24} color="black" />
         <Text className="text-black">Start your first reading</Text>
       </Button>

@@ -13,7 +13,7 @@ export default function RootLayout() {
     <>
       <Stack screenOptions={{}}>
         <Stack.Screen name="(tabs)" options={{ title: "" }} />
-        <Stack.Screen name="reader" options={{ title: "Upload" }} />
+        <Stack.Screen name="upload" options={{ title: "Upload" }} />
       </Stack>
       <PortalHost />
     </>

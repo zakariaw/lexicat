@@ -22,19 +22,3 @@ export default function UploadScreen() {
     </View>
   );
 }
-
-// <View>
-//   <View>
-//     <Text></Text>
-//     <Textarea
-//       placeholder="Type your message here."
-//       className="max-w-md"
-//     ></Textarea>
-//   </View>
-//   <View>
-//     <Button className="bg-white w-72">
-//       <Ionicons name="add" size={24} color="black" />
-//       <Text className="text-black">Start your first reading</Text>
-//     </Button>
-//   </View>
-// </View>

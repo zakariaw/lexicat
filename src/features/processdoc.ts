@@ -1,14 +1,12 @@
-// ===============================
-// 🇸🇦 Arabic NLP Preprocessing
-// Clean → Tokenise → Clitic Split
-// ===============================
+// ======================================================
+// Arabic NLP Pipeline (Clean → Tokenise → Split → Analyse)
+// ======================================================
 
-// -------------------------------
+// ----------------------
 // 1. CLEANING
-// -------------------------------
+// ----------------------
 
 export function removeDiacritics(text: string): string {
-  // Harakat + tanween + shadda
   return text.replace(/[\u0617-\u061A\u064B-\u0652]/g, "");
 }
 
@@ -17,18 +15,12 @@ export function removeTatweel(text: string): string {
 }
 
 export function normalizeArabic(text: string): string {
-  return (
-    text
-      // Alef variants
-      .replace(/أ|إ|آ/g, "ا")
-      // Ya variants
-      .replace(/ى/g, "ي")
-      // Hamza variants
-      .replace(/ؤ/g, "و")
-      .replace(/ئ/g, "ي")
-      // Taa marbuta
-      .replace(/ة/g, "ه")
-  );
+  return text
+    .replace(/أ|إ|آ/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ة/g, "ه");
 }
 
 export function cleanText(text: string): string {
@@ -38,64 +30,36 @@ export function cleanText(text: string): string {
   return text;
 }
 
-// -------------------------------
+// ----------------------
 // 2. TOKENISATION
-// -------------------------------
+// ----------------------
 
 export function tokenize(text: string): string[] {
-  // Extract Arabic/word tokens
-  // Works well for MVP; ignores punctuation
   return text.match(/[\p{L}\p{N}_]+/gu) || [];
 }
 
-// -------------------------------
+// ----------------------
 // 3. CLITIC SPLITTING
-// -------------------------------
+// ----------------------
 
-// Common Arabic prefixes (clitics)
 const PREFIXES = ["و", "ف", "ب", "ك", "ل", "س"];
 const DEFINITE_ARTICLE = "ال";
-
-// Handle pronoun suffixes (optional simple MVP support)
-const PRONOUN_SUFFIXES = ["ه", "ها", "هم", "هن", "ك", "كم", "كن", "ي"];
-
-// -------------------------------
-// Split a single word into clitics
-// -------------------------------
 
 export function splitClitics(word: string): string[] {
   const parts: string[] = [];
 
-  // -----------------------
-  // 1. PREFIX stripping
-  // -----------------------
+  // peel prefixes
   while (word.length > 1 && PREFIXES.includes(word[0])) {
     parts.push(word[0]);
     word = word.slice(1);
   }
 
-  // -----------------------
-  // 2. Definite article "ال"
-  // -----------------------
+  // handle "ال"
   if (word.startsWith(DEFINITE_ARTICLE) && word.length > 2) {
     parts.push("ال");
     word = word.slice(2);
   }
 
-  // -----------------------
-  // 3. SUFFIX stripping (very basic MVP)
-  // -----------------------
-  for (const suffix of PRONOUN_SUFFIXES) {
-    if (word.endsWith(suffix) && word.length > suffix.length + 1) {
-      word = word.slice(0, -suffix.length);
-      parts.push(suffix);
-      break;
-    }
-  }
-
-  // -----------------------
-  // 4. Remaining root
-  // -----------------------
   if (word.length > 0) {
     parts.push(word);
   }
@@ -103,14 +67,7 @@ export function splitClitics(word: string): string[] {
   return parts;
 }
 
-// -------------------------------
-// 4. FULL PIPELINE
-// -------------------------------
-
-export function processArabicText(text: string): string[] {
-  const cleaned = cleanText(text);
-  const tokens = tokenize(cleaned);
-
+export function cliticTokenize(tokens: string[]): string[] {
   const result: string[] = [];
 
   for (const token of tokens) {
@@ -120,11 +77,11 @@ export function processArabicText(text: string): string[] {
   return result;
 }
 
-// -------------------------------
-// 5. OPTIONAL: frequency helper
-// -------------------------------
+// ----------------------
+// 4. FREQUENCY ANALYSIS
+// ----------------------
 
-export function getTokenFrequency(tokens: string[]): Map<string, number> {
+export function getFrequency(tokens: string[]): Map<string, number> {
   const freq = new Map<string, number>();
 
   for (const token of tokens) {
@@ -134,14 +91,49 @@ export function getTokenFrequency(tokens: string[]): Map<string, number> {
   return freq;
 }
 
-// -------------------------------
-// 6. EXAMPLE USAGE
-// -------------------------------
+// ----------------------
+// 5. DEDUPLICATION (safe, separate output)
+// ----------------------
+
+export function deduplicate(tokens: string[]): string[] {
+  return [...new Set(tokens)];
+}
+
+// ----------------------
+// 6. FULL PIPELINE OUTPUT
+// ----------------------
+
+export type ArabicAnalysisResult = {
+  rawTokens: string[];
+  tokens: string[];
+  uniqueTokens: string[];
+  frequency: Map<string, number>;
+};
+
+export function analyzeArabicText(text: string): ArabicAnalysisResult {
+  const cleaned = cleanText(text);
+
+  const baseTokens = tokenize(cleaned);
+
+  const tokens = cliticTokenize(baseTokens);
+
+  return {
+    rawTokens: baseTokens,
+    tokens,
+    uniqueTokens: deduplicate(tokens),
+    frequency: getFrequency(tokens),
+  };
+}
+
+// ----------------------
+// 7. EXAMPLE USAGE
+// ----------------------
 
 const sample =
-  "إِنَّ اللّٰهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ وَالسَّمَاءُ مُزَيَّنَةٌ بِالنُّجُومِ";
+  "إِنَّ اللّٰهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ وَالسَّمَاءُ بِالنُّجُومِ";
 
-const processed = processArabicText(sample);
+const result = analyzeArabicText(sample);
 
-console.log("TOKENS:", processed);
-console.log("FREQUENCY:", getTokenFrequency(processed));
+console.log("TOKENS:", result.tokens);
+console.log("UNIQUE:", result.uniqueTokens);
+console.log("FREQUENCY:", Object.fromEntries(result.frequency));

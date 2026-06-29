@@ -5,6 +5,10 @@
     "source.sortMembers": "explicit"
   },
 
+  "code-runner.executorMap": {
+    "typescript": "npx tsx"
+  },
+
   "tailwindCSS.classAttributes": [
     "class",
     "className",

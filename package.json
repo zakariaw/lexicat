@@ -6,6 +6,7 @@
     "@expo/ui": "~56.0.18",
     "@expo/vector-icons": "^15.0.2",
     "@rn-primitives/portal": "^1.4.0",
+    "@rn-primitives/progress": "^1.5.2",
     "@rn-primitives/slot": "^1.4.0",
     "@rn-primitives/toggle": "^1.4.0",
     "class-variance-authority": "^0.7.1",

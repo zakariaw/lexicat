@@ -24,7 +24,7 @@ export default function UnknownScreen() {
       <View className="flex-row items-center  bg-green-100 px-4">
         <Text>Tap ✓ to mark as known</Text>
       </View>
-      <View style={{ flex: 10 }} className="bg-pink-200">
+      <View style={{ flex: 1 }} className="bg-pink-200">
         <VocabCard
           title="School"
           count="14x"

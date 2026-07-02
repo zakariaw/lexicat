@@ -64,3 +64,13 @@ export function initDb() {
     );
   `);
 }
+
+export function clearDatabase() {
+  db.execSync(`
+    DROP TABLE IF EXISTS documents;
+    DROP TABLE IF EXISTS vocab;
+    DROP TABLE IF EXISTS document_vocab;
+    DROP TABLE IF EXISTS word_forms;
+    DROP TABLE IF EXISTS document_stats;
+  `);
+}

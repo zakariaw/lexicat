@@ -18,7 +18,7 @@ export function VocabCard({
   onPressedChange,
 }: VocabCardProps) {
   return (
-    <View className="h-18 bg-red-500 flex-row items-center justify-between px-4">
+    <View className="h-18 bg-red-200 flex-row items-center justify-between px-4">
       <View className="flex-col">
         <Text>{title}</Text>
         <Text>{count}</Text>

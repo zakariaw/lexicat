@@ -18,9 +18,8 @@ export default function TopTabsLayout() {
         },
       }}
     >
-      <MaterialTopTabs.Screen name="known" options={{ title: "Known" }} />
-
       <MaterialTopTabs.Screen name="unknown" options={{ title: "Unknown" }} />
+      <MaterialTopTabs.Screen name="known" options={{ title: "Known" }} />
     </MaterialTopTabs>
   );
 }

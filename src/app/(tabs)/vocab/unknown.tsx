@@ -9,7 +9,7 @@ import { View } from "react-native";
 export default function UnknownScreen() {
   return (
     <View className="flex-1 flex-col">
-      <View className="flex-row h-12 items-center bg-amber-100 px-4 gap-2">
+      <View className="flex-1 flex-row  items-center bg-amber-100 px-4 gap-2">
         <Input
           className="flex-4"
           keyboardType="email-address"
@@ -21,16 +21,18 @@ export default function UnknownScreen() {
           <Icon as={ChevronRight} />
         </Button>
       </View>
-      <View className="flex-row h-6 bg-green-100 px-4">
+      <View className="flex-1 flex-row items-center  bg-green-100 px-4">
         <Text>Tap ✓ to mark as known</Text>
       </View>
-      <VocabCard
-        title="School"
-        count="14x"
-        arabicText="هاريس"
-        pressed={false}
-        onPressedChange={(value) => console.log(value)}
-      />
+      <View className="flex-60 bg-pink-200">
+        <VocabCard
+          title="School"
+          count="14x"
+          arabicText="هاريس"
+          pressed={false}
+          onPressedChange={(value) => console.log(value)}
+        />
+      </View>
     </View>
   );
 }

@@ -6,7 +6,7 @@ import {
   insertWord,
   searchWords,
   updateWordStatus,
-} from "@/features/vocab/db/database";
+} from "@/database/function";
 
 type Word = {
   id: number;

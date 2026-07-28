@@ -16,6 +16,10 @@ export function initDb() {
 `);
 }
 
+export function deleteDb() {
+  SQLite.deleteDatabaseSync("vocab.db");
+}
+
 // export function initDb() {
 //   db.execSync(`
 //     PRAGMA foreign_keys = ON;

@@ -1,15 +1,21 @@
-import { useRouter } from "expo-router";
-import { Pressable, View } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 
 export default function Index() {
-  const router = useRouter();
+  const documents = [
+    { id: 1, title: "Arabic Lesson 1" },
+    { id: 2, title: "Arabic Lesson 2" },
+    { id: 3, title: "Arabic Lesson 3" },
+  ];
 
   return (
     <View className="bg-green-300 flex-1">
-      <Pressable
-        className="bg-blue-500 h-20 mx-4 my-4"
-        onPress={() => router.push("/summary")}
-      ></Pressable>
+      <FlatList
+        data={documents}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Pressable className="bg-blue-500 m-2 p-5"></Pressable>
+        )}
+      />
     </View>
   );
 }

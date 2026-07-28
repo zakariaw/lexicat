@@ -7,10 +7,15 @@ import { useEffect } from "react";
 
 export default function RootLayout() {
   useEffect(() => {
-    initDb();
-    runMigration();
-    const documents = getAllDocuments();
-    console.log("Documents in database:", documents);
+    function setup() {
+      initDb();
+      runMigration();
+
+      const documents = getAllDocuments();
+      console.log("Documents in database:", documents);
+    }
+
+    setup();
   }, []);
 
   return (

@@ -1,5 +1,3 @@
-import { initDb } from "@/database/client";
-import { getAllDocuments, runMigration } from "@/database/migration";
 import "@/global.css";
 import { PortalHost } from "@rn-primitives/portal";
 import { Stack } from "expo-router";
@@ -7,15 +5,14 @@ import { useEffect } from "react";
 
 export default function RootLayout() {
   useEffect(() => {
-    function setup() {
-      initDb();
-      runMigration();
-
-      const documents = getAllDocuments();
-      console.log("Documents in database:", documents);
-    }
-
-    setup();
+    // function setup() {
+    //   initDb();
+    //   runMigration();
+    //   const documents = getAllDocuments();
+    //   console.log("Documents in database:", documents);
+    // }
+    // setup();
+    // deleteDb();
   }, []);
 
   return (

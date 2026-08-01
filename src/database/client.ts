@@ -17,6 +17,7 @@ export function initDb() {
 }
 
 export function deleteDb() {
+  db.closeSync();
   SQLite.deleteDatabaseSync("vocab.db");
 }
 

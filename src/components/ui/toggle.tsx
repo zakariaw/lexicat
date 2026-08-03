@@ -4,7 +4,7 @@ import * as TogglePrimitive from "@rn-primitives/toggle";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Platform } from "react-native";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../archive/lib/utils";
 
 const toggleVariants = cva(
   cn(

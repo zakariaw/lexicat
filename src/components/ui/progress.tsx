@@ -7,7 +7,7 @@ import Animated, {
     useDerivedValue,
     withSpring,
 } from "react-native-reanimated";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../archive/lib/utils";
 
 function Progress({
   className,

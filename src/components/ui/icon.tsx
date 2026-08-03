@@ -2,7 +2,7 @@ import { TextClassContext } from "@/components/ui/text";
 import type { LucideIcon, LucideProps } from "lucide-react-native";
 import * as React from "react";
 import { withUniwind } from "uniwind";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../archive/lib/utils";
 
 type IconProps = LucideProps & {
   as: LucideIcon;

@@ -6,3 +6,9 @@ export const chaptersTable = sqliteTable("chapters", {
   title_ar: text().notNull(),
   content: text().notNull(),
 });
+
+
+export const metadataTable = sqliteTable("metadata", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+});

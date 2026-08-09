@@ -1,13 +1,17 @@
 {
   "version": "7",
   "dialect": "sqlite",
-  "id": "df8f6579-9056-4048-8b95-02a3a943a12d",
+  "id": "30e91e30-5430-4685-829c-d1961261fc08",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
     {
       "name": "chapters",
+      "entityType": "tables"
+    },
+    {
+      "name": "metadata",
       "entityType": "tables"
     },
     {
@@ -51,12 +55,41 @@
       "table": "chapters"
     },
     {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "key",
+      "entityType": "columns",
+      "table": "metadata"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "value",
+      "entityType": "columns",
+      "table": "metadata"
+    },
+    {
       "columns": [
         "id"
       ],
       "nameExplicit": false,
       "name": "chapters_pk",
       "table": "chapters",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "key"
+      ],
+      "nameExplicit": false,
+      "name": "metadata_pk",
+      "table": "metadata",
       "entityType": "pks"
     }
   ],

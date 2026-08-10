@@ -75,13 +75,13 @@ export async function seedNewDatabase() {
 
 // TODO : Aysnc fix Sqlite error :
 export async function reseedDatabase() {
-  await db.transaction(async (tx) => {
+  db.transaction((tx) => {
     // Delete old chapters
-    await tx.delete(chaptersTable);
+    tx.delete(chaptersTable);
 
     // Insert new chapters
     for (const chapter of book) {
-      await tx.insert(chaptersTable).values({
+      tx.insert(chaptersTable).values({
         id: Number(chapter.id),
         title_en: chapter.title_en,
         title_ar: chapter.title_ar,
@@ -90,8 +90,7 @@ export async function reseedDatabase() {
     }
 
     // Update the stored hash
-    await tx
-      .insert(metadataTable)
+    tx.insert(metadataTable)
       .values({
         key: "asset_hash",
         value: asset.asset_hash,

@@ -16,7 +16,7 @@ const documents: NewDocument[] = [
   },
 ];
 
-// TODO: Just check if there is any data in the database or particular to verify migration was successful.
+
 
 export function runMigration(): void {
   for (const document of documents) {

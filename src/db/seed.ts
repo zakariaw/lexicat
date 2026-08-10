@@ -5,7 +5,10 @@ import { chaptersTable, metadataTable } from "./schema";
 import asset from "@/assets/json/asset.json";
 import book from "@/assets/json/book.json";
 
-export async function seedChapters() {
+/**
+ * Insert all chapters from book.json into the database.
+ */
+export async function insertChapters() {
   for (const chapter of book) {
     await db.insert(chaptersTable).values({
       id: Number(chapter.id),
@@ -16,54 +19,62 @@ export async function seedChapters() {
   }
 }
 
-export async function seedMetadata() {
-  await db
-    .insert(metadataTable)
-    .values({
-      key: "asset_hash",
-      value: asset.asset_hash,
-    })
-    .onConflictDoUpdate({
-      target: metadataTable.key,
-      set: {
-        value: asset.asset_hash,
-      },
-    });
+/**
+ * Delete all existing chapters.
+ */
+export async function deleteChapters() {
+  await db.delete(chaptersTable);
 }
 
-export async function seedDatabase() {
-  const assetHash = asset.asset_hash;
-
-  // 1. Check if metadata exists
-  const existingMetadata = await db
+/**
+ * Get the asset hash currently stored in the database.
+ */
+export async function getStoredAssetHash() {
+  const result = await db
     .select()
     .from(metadataTable)
     .where(eq(metadataTable.key, "asset_hash"))
     .limit(1);
 
-  const existingHash = existingMetadata[0]?.value;
+  return result[0]?.value;
+}
 
-  // 2. No metadata exists
-  if (!existingHash) {
-    console.log("No asset hash found. Seeding database...");
+/**
+ * Save the current asset hash to the database.
+ *
+ * If the hash already exists, update it.
+ */
+export async function saveAssetHash(hash: string) {
+  await db
+    .insert(metadataTable)
+    .values({
+      key: "asset_hash",
+      value: hash,
+    })
+    .onConflictDoUpdate({
+      target: metadataTable.key,
+      set: {
+        value: hash,
+      },
+    });
+}
 
-    await seedChapters();
-    await seedMetadata();
+/**
+ * Seed the database for the first time.
+ */
+export async function seedNewDatabase() {
+  await insertChapters();
+  await saveAssetHash(asset.asset_hash);
+}
 
-    console.log("Database seeded.");
-    return;
-  }
+/**
+ * Replace the existing chapters with the new book data.
+ *
+ * Everything happens inside one transaction.
+ */
 
-  // 3. Hash matches
-  if (existingHash === assetHash) {
-    console.log("Asset hash matches. Database is up to date.");
-    return;
-  }
-
-  // 4. Hash is different
-  console.log("Asset hash changed.");
-  console.log("Destroying existing chapter data and reseeding...");
-
+// TODO : Aysnc fix Sqlite error :
+export async function reseedDatabase() {
   await db.transaction(async (tx) => {
     // Delete old chapters
     await tx.delete(chaptersTable);
@@ -78,20 +89,50 @@ export async function seedDatabase() {
       });
     }
 
-    // Update metadata
+    // Update the stored hash
     await tx
       .insert(metadataTable)
       .values({
         key: "asset_hash",
-        value: assetHash,
+        value: asset.asset_hash,
       })
       .onConflictDoUpdate({
         target: metadataTable.key,
         set: {
-          value: assetHash,
+          value: asset.asset_hash,
         },
       });
   });
+}
+
+/**
+ * Check whether the database needs to be seeded or updated.
+ */
+export async function seedDatabase() {
+  const currentAssetHash = asset.asset_hash;
+  const storedAssetHash = await getStoredAssetHash();
+
+  // First installation
+  if (!storedAssetHash) {
+    console.log("No asset hash found. Seeding database...");
+
+    await seedNewDatabase();
+
+    console.log("Database seeded.");
+    return;
+  }
+
+  // Database is already up to date
+  if (storedAssetHash === currentAssetHash) {
+    console.log("Asset hash matches. Database is up to date.");
+    return;
+  }
+
+  // Asset has changed
+  console.log("Asset hash changed.");
+  console.log("Reseeding database...");
+
+  await reseedDatabase();
 
   console.log("Database successfully reseeded.");
 }

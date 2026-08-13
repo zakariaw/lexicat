@@ -1,8 +1,3 @@
-import { Text } from "@/components/ui/text";
-import { getChapterById } from "@/db/queries";
-import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { View } from "react-native";
 
 type Chapter = {
   id: number;
@@ -12,34 +7,28 @@ type Chapter = {
 };
 
 export default function Reader() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-
-  const [chapter, setChapter] = useState<Chapter | null>(null);
-
-  useEffect(() => {
-    async function loadChapter() {
-      if (!id) return;
-
-      const data = await getChapterById(Number(id));
-      setChapter(data);
-    }
-
-    loadChapter();
-  }, [id]);
-
-  if (!chapter) {
-    return (
-      <View>
-        <Text>Chapter not found.</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View className="flex-1">
-      <Text className="text-black text-right text-base/18 p-4">
-        {chapter.content}
-      </Text>
-    </View>
-  );
+  // const { id } = useLocalSearchParams<{ id: string }>();
+  // const [chapter, setChapter] = useState<Chapter | null>(null);
+  // useEffect(() => {
+  //   async function loadChapter() {
+  //     if (!id) return;
+  //     const data = await getChapterById(Number(id));
+  //     setChapter(data);
+  //   }
+  //   loadChapter();
+  // }, [id]);
+  // if (!chapter) {
+  //   return (
+  //     <View>
+  //       <Text>Chapter not found.</Text>
+  //     </View>
+  //   );
+  // }
+  // return (
+  //   <View className="flex-1">
+  //     <Text className="text-black text-right text-base/18 p-4">
+  //       {chapter.content}
+  //     </Text>
+  //   </View>
+  // );
 }

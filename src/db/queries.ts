@@ -1,17 +1,27 @@
+import { and, eq } from "drizzle-orm";
 import { db } from "./index";
-import { chaptersTable } from "./schema";
-import { eq } from "drizzle-orm";
+import { booksTable, chaptersTable } from "./schema";
 
-export async function getChapters() {
-  return await db.select().from(chaptersTable);
+export function getBooks() {
+  return db
+    .select({
+      id: booksTable.id,
+      title_en: booksTable.title_en,
+      title_ar: booksTable.title_ar,
+    })
+    .from(booksTable)
+    .all();
 }
 
-export async function getChapterById(id: number) {
-  const result = await db
+export function getChapter(bookId: number, chapterNumber: number) {
+  return db
     .select()
     .from(chaptersTable)
-    .where(eq(chaptersTable.id, id))
-    .limit(1);
-
-  return result[0] ?? null;
+    .where(
+      and(
+        eq(chaptersTable.book_id, bookId),
+        eq(chaptersTable.chapter_number, chapterNumber),
+      ),
+    )
+    .get();
 }

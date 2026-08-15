@@ -1,4 +1,3 @@
-
 type Chapter = {
   id: number;
   title_en: string;

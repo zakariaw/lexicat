@@ -36,12 +36,10 @@ function getExistingBook(bookId: number) {
 function needsSeeding(book: BookJson) {
   const existingBook = getExistingBook(Number(book.id));
 
-  // New book
   if (!existingBook) {
     return true;
   }
 
-  // Content has changed
   return existingBook.asset_hash !== book.asset_hash;
 }
 
@@ -49,8 +47,8 @@ function needsSeeding(book: BookJson) {
 // Insert or update book
 // ----------------------------------------
 
-function saveBook(book: BookJson) {
-  db.insert(booksTable)
+function saveBook(tx: any, book: BookJson) {
+  tx.insert(booksTable)
     .values({
       id: Number(book.id),
       title_en: book.title_en,
@@ -72,21 +70,21 @@ function saveBook(book: BookJson) {
 // Delete existing chapters
 // ----------------------------------------
 
-function deleteChapters(bookId: number) {
-  db.delete(chaptersTable).where(eq(chaptersTable.book_id, bookId)).run();
+function deleteChapters(tx: any, bookId: number) {
+  tx.delete(chaptersTable).where(eq(chaptersTable.book_id, bookId)).run();
 }
 
 // ----------------------------------------
 // Insert chapters
 // ----------------------------------------
 
-function insertChapters(book: BookJson) {
+function insertChapters(tx: any, book: BookJson) {
   const bookId = Number(book.id);
 
   for (let i = 0; i < book.chapters.length; i++) {
     const chapter = book.chapters[i];
 
-    db.insert(chaptersTable)
+    tx.insert(chaptersTable)
       .values({
         book_id: bookId,
         chapter_number: i + 1,
@@ -102,11 +100,11 @@ function insertChapters(book: BookJson) {
 // Replace all chapters for a book
 // ----------------------------------------
 
-function replaceChapters(book: BookJson) {
+function replaceChapters(tx: any, book: BookJson) {
   const bookId = Number(book.id);
 
-  deleteChapters(bookId);
-  insertChapters(book);
+  deleteChapters(tx, bookId);
+  insertChapters(tx, book);
 }
 
 // ----------------------------------------
@@ -114,12 +112,14 @@ function replaceChapters(book: BookJson) {
 // ----------------------------------------
 
 function seedBook(book: BookJson) {
+  const bookId = Number(book.id);
+
   if (!needsSeeding(book)) {
     console.log(`Skipping "${book.title_en}" - hash matches`);
     return;
   }
 
-  const existingBook = getExistingBook(Number(book.id));
+  const existingBook = getExistingBook(bookId);
 
   if (existingBook) {
     console.log(`Updating "${book.title_en}" - hash changed`);
@@ -127,8 +127,10 @@ function seedBook(book: BookJson) {
     console.log(`Inserting "${book.title_en}" - new book`);
   }
 
-  saveBook(book);
-  replaceChapters(book);
+  db.transaction((tx) => {
+    saveBook(tx, book);
+    replaceChapters(tx, book);
+  });
 }
 
 // ----------------------------------------

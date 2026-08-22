@@ -5,9 +5,7 @@ import { useEffect } from "react";
 
 export default function RootLayout() {
   useEffect(() => {
-    initializeDatabase().catch((error) => {
-      console.error("Database initialization failed:", error);
-    });
+    initializeDatabase();
   }, []);
   return <Stack />;
 }

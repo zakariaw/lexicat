@@ -1,8 +1,10 @@
 CREATE TABLE `books` (
 	`id` integer PRIMARY KEY,
+	`volume_id` integer,
 	`title_en` text NOT NULL,
 	`title_ar` text NOT NULL,
-	`asset_hash` text NOT NULL
+	`asset_hash` text,
+	CONSTRAINT `fk_books_volume_id_volumes_id_fk` FOREIGN KEY (`volume_id`) REFERENCES `volumes`(`id`) ON DELETE SET NULL
 );
 --> statement-breakpoint
 CREATE TABLE `chapters` (
@@ -14,4 +16,11 @@ CREATE TABLE `chapters` (
 	`last_read_at` integer,
 	CONSTRAINT `chapters_pk` PRIMARY KEY(`book_id`, `chapter_number`),
 	CONSTRAINT `fk_chapters_book_id_books_id_fk` FOREIGN KEY (`book_id`) REFERENCES `books`(`id`) ON DELETE CASCADE
+);
+--> statement-breakpoint
+CREATE TABLE `volumes` (
+	`id` integer PRIMARY KEY,
+	`title_en` text NOT NULL,
+	`title_ar` text NOT NULL,
+	`asset_hash` text NOT NULL
 );

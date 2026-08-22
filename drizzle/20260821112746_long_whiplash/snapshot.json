@@ -1,7 +1,7 @@
 {
   "version": "7",
   "dialect": "sqlite",
-  "id": "5c2380a6-e74a-4bea-b320-c732825fbb50",
+  "id": "07772143-94fd-401d-8d2f-d4fa1ae1cb33",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -15,12 +15,26 @@
       "entityType": "tables"
     },
     {
+      "name": "volumes",
+      "entityType": "tables"
+    },
+    {
       "type": "integer",
       "notNull": false,
       "autoincrement": false,
       "default": null,
       "generated": null,
       "name": "id",
+      "entityType": "columns",
+      "table": "books"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "volume_id",
       "entityType": "columns",
       "table": "books"
     },
@@ -46,7 +60,7 @@
     },
     {
       "type": "text",
-      "notNull": true,
+      "notNull": false,
       "autoincrement": false,
       "default": null,
       "generated": null,
@@ -115,6 +129,61 @@
       "table": "chapters"
     },
     {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "volumes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "title_en",
+      "entityType": "columns",
+      "table": "volumes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "title_ar",
+      "entityType": "columns",
+      "table": "volumes"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "asset_hash",
+      "entityType": "columns",
+      "table": "volumes"
+    },
+    {
+      "columns": [
+        "volume_id"
+      ],
+      "tableTo": "volumes",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "SET NULL",
+      "nameExplicit": false,
+      "name": "fk_books_volume_id_volumes_id_fk",
+      "entityType": "fks",
+      "table": "books"
+    },
+    {
       "columns": [
         "book_id"
       ],
@@ -146,6 +215,15 @@
       "nameExplicit": false,
       "name": "books_pk",
       "table": "books",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "volumes_pk",
+      "table": "volumes",
       "entityType": "pks"
     }
   ],

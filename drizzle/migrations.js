@@ -1,10 +1,10 @@
 // This file is required for Expo/React Native SQLite migrations - https://orm.drizzle.team/quick-sqlite/expo
 
-import m0000 from './20260813111934_broken_cerebro/migration.sql';
+import m0000 from './20260821112746_long_whiplash/migration.sql';
 
   export default {
     migrations: {
-      "20260813111934_broken_cerebro": m0000
+      "20260821112746_long_whiplash": m0000
 }
   }
   

@@ -1,9 +1,8 @@
 import { runMigrations } from "./migrate";
-import { seedDatabase } from "./seed";
-import { testDatabase } from "./test";
+import { seedBooks } from "./seed";
 
 export async function initializeDatabase() {
   await runMigrations();
-  await seedDatabase();
-  testDatabase();
+  seedBooks();
+  // testDatabase();
 }

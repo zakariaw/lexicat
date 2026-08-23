@@ -1,6 +1,57 @@
-import { and, desc, eq, isNotNull } from "drizzle-orm";
+import { and, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import { db } from "./index";
 import { booksTable, chaptersTable, volumesTable } from "./schema";
+
+// ============================================================
+// Get Library Items
+// ============================================================
+
+export type LibraryItem =
+  | {
+      type: "volume";
+      id: number;
+      title_en: string;
+      title_ar: string;
+    }
+  | {
+      type: "book";
+      id: number;
+      title_en: string;
+      title_ar: string;
+    };
+
+export function getLibraryItems(): LibraryItem[] {
+  const volumes = db
+    .select({
+      id: volumesTable.id,
+      title_en: volumesTable.title_en,
+      title_ar: volumesTable.title_ar,
+    })
+    .from(volumesTable)
+    .all();
+
+  const books = db
+    .select({
+      id: booksTable.id,
+      title_en: booksTable.title_en,
+      title_ar: booksTable.title_ar,
+    })
+    .from(booksTable)
+    .where(isNull(booksTable.volume_id))
+    .all();
+
+  return [
+    ...volumes.map((volume) => ({
+      type: "volume" as const,
+      ...volume,
+    })),
+
+    ...books.map((book) => ({
+      type: "book" as const,
+      ...book,
+    })),
+  ];
+}
 
 // ============================================================
 // Get all volumes

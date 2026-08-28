@@ -4,13 +4,13 @@ import { Text } from "@/components/ui/text";
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 
-type ChapterButtonProps = {
+type BookButtonProps = {
   id: number;
   title_en: string;
   title_ar: string;
 };
 
-export default function ChapterButton(props: ChapterButtonProps) {
+export default function BookButton(props: BookButtonProps) {
   return (
     <Pressable
       // onPress={() => router.push(`/reader/${props.id}`)}

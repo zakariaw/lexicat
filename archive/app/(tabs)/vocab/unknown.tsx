@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { VocabCard } from "@/components/ui/collectioncard";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
-import { VocabCard } from "@/components/ui/vocabcard";
 import { ChevronRight } from "lucide-react-native";
 import { View } from "react-native";
 

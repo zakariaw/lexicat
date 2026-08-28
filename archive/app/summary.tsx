@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import StatCard from "@/components/ui/statcard";
 
+import { VocabCard } from "@/components/ui/collectioncard";
 import { Text } from "@/components/ui/text";
-import { VocabCard } from "@/components/ui/vocabcard";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ChevronRight } from "lucide-react-native";

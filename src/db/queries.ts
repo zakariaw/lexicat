@@ -87,6 +87,24 @@ export function getVolume(volumeId: number) {
 }
 
 // ============================================================
+// Get books associated with a particular volume
+// ============================================================
+
+export function getBooksByVolume(volumeId: number) {
+  return db
+    .select({
+      id: booksTable.id,
+      volume_id: booksTable.volume_id,
+      title_en: booksTable.title_en,
+      title_ar: booksTable.title_ar,
+      asset_hash: booksTable.asset_hash,
+    })
+    .from(booksTable)
+    .where(eq(booksTable.volume_id, volumeId))
+    .all();
+}
+
+// ============================================================
 // Get all books
 // ============================================================
 
@@ -121,6 +139,18 @@ export function getBook(bookId: number) {
     .get();
 }
 
+// ============================================================
+// Get all chapters
+// ============================================================
+
+export function getChapters(bookId: number) {
+  return db
+    .select()
+    .from(chaptersTable)
+    .where(eq(chaptersTable.book_id, bookId))
+    .orderBy(chaptersTable.chapter_number)
+    .all();
+}
 // ============================================================
 // Get chapter
 // ============================================================

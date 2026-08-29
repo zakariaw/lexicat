@@ -18,5 +18,38 @@ export default function RootLayout() {
   if (!ready) {
     return null;
   }
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: "Home",
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="book/[bookId]"
+        options={{
+          title: "Chapters",
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen
+        name="volume/[volumeId]"
+        options={{
+          title: "Books",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="reader/[bookId]/[chapterNumber]"
+        options={{
+          title: "Reader",
+          headerShown: true,
+        }}
+      />
+    </Stack>
+  );
 }

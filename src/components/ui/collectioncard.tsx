@@ -3,7 +3,7 @@ import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { router } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 
 type CollectionCardProps = {
   id: number;
@@ -28,14 +28,18 @@ export function CollectionCard(props: CollectionCardProps) {
 
   return (
     <Pressable
-      className="bg-gray-300 h-28 rounded-2xl items-center justify-center w-[48%] p-3"
       onPress={handlePress}
+      className="w-[48%] h-28 rounded-2xl bg-gray-300"
     >
-      <Button variant="outline" size="icon">
-        <Icon as={ChevronRight} />
-      </Button>
+      <View className="h-16 items-center justify-center">
+        <Button variant="outline" size="icon">
+          <Icon as={ChevronRight} />
+        </Button>
+      </View>
 
-      <Text className="text-black text-center">{props.title}</Text>
+      <View className="h-12 w-full">
+        <Text className="text-black text-center text-sm">{props.title}</Text>
+      </View>
     </Pressable>
   );
 }

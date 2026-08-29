@@ -26,22 +26,3 @@ export default function Index() {
     </View>
   );
 }
-
-// return (
-//   <FlatList
-//     data={libraryItems}
-//     keyExtractor={(item) => `${item.type}-${item.id}`}
-//     renderItem={({ item }) => (
-//       <ChapterButton
-//         title={item.title_en}
-//         onPress={() => {
-//           if (item.type === "volume") {
-//             router.push(`/volume/${item.id}`);
-//           } else {
-//             router.push(`/book/${item.id}`);
-//           }
-//         }}
-//       />
-//     )}
-//   />
-// );

@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 
-export default function BookList() {
+export default function ChapterList() {
   const { bookId } = useLocalSearchParams<{ bookId: string }>();
 
   const [chapters, setChapters] = useState<ReturnType<typeof getChapters>>([]);

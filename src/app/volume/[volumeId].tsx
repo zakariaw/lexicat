@@ -6,14 +6,10 @@ import { FlatList, View } from "react-native";
 
 export default function BookList() {
   const { volumeId } = useLocalSearchParams<{ volumeId: string }>();
-
   const [books, setBooks] = useState<ReturnType<typeof getBooksByVolume>>([]);
-
   useEffect(() => {
     if (!volumeId) return;
-
     const data = getBooksByVolume(Number(volumeId));
-
     setBooks(data);
   }, [volumeId]);
 

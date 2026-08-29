@@ -1,4 +1,4 @@
-import BookButton from "@/components/ui/bookbutton";
+import BookCard from "@/components/ui/bookcard";
 import { getBooksByVolume } from "@/db/queries";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -22,11 +22,9 @@ export default function BookList() {
       <FlatList
         data={books}
         keyExtractor={(item) => String(item.id)}
-        numColumns={2}
         contentContainerClassName="p-4 gap-2"
-        columnWrapperClassName="gap-2"
         renderItem={({ item }) => (
-          <BookButton
+          <BookCard
             id={item.id}
             title_en={item.title_en}
             title_ar={item.title_ar}

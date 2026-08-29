@@ -1,4 +1,4 @@
-import ChapterButton from "@/components/ui/chapterbutton";
+import ChapterCard from "@/components/ui/chaptercard";
 import { getChapters } from "@/db/queries";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -19,16 +19,14 @@ export default function BookList() {
 
   return (
     <View className="flex-1 bg-white">
-      ß
       <FlatList
         data={chapters}
         keyExtractor={(item) => `${item.book_id}-${item.chapter_number}`}
-        numColumns={2}
         contentContainerClassName="p-4 gap-2"
-        columnWrapperClassName="gap-2"
         renderItem={({ item }) => (
-          <ChapterButton
-            id={0}
+          <ChapterCard
+            bookId={item.book_id}
+            chapterNumber={item.chapter_number}
             title_en={item.title_en}
             title_ar={item.title_ar}
           />

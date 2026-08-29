@@ -1,4 +1,4 @@
-import ChapterButton from "@/components/ui/chapterbutton";
+import ChapterButton from "@/components/ui/chaptercard";
 import { FlatList, View } from "react-native";
 
 export default function Index() {

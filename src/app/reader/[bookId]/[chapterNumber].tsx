@@ -1,4 +1,4 @@
-import { getChapter } from "@/db/queries";
+import { getChapter, markChapterAsRead } from "@/db/queries";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -19,6 +19,7 @@ export default function Reader() {
     const data = getChapter(Number(bookId), Number(chapterNumber));
 
     setChapter(data);
+    markChapterAsRead(Number(bookId), Number(chapterNumber));
   }, [bookId, chapterNumber]);
 
   if (!chapter) {
@@ -33,7 +34,7 @@ export default function Reader() {
     <View className="flex-1 bg-white">
       <ScrollView contentContainerClassName="p-5 pb-10">
         {/* Chapter number */}
-        <Text className="mb-2 text-center text-sm text-gray-500">
+        <Text className=" pt-4 text-right text-lg text-black">
           {chapter.content}
         </Text>
       </ScrollView>

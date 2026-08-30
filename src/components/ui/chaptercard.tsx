@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
 import { router } from "expo-router";
-import { ChevronRight } from "lucide-react-native";
+import { BookOpenText } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 
 type ChapterCardProps = {
@@ -20,10 +20,10 @@ export default function ChapterCard({
   return (
     <Pressable
       onPress={() => router.push(`/reader/${bookId}/${chapterNumber}`)}
-      className="bg-gray-200 mt-4 mx-4 h-16 rounded-2xl flex-row items-center gap-4 px-4"
+      className="bg-gray-200 h-16 rounded-2xl flex-row items-center gap-4 px-4"
     >
       <Button variant="outline" size="icon">
-        <Icon as={ChevronRight} />
+        <Icon as={BookOpenText} />
       </Button>
       <View className="flex-col">
         <Text className="text-black">{title_en}</Text>
